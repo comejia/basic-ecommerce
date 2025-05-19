@@ -6,7 +6,7 @@ import com.comejia.pedidos.repositories.Repository;
 import java.util.List;
 import java.util.UUID;
 
-public class ProductService implements Service<Product>{
+public class ProductService implements Service<Product> {
 
     private final Repository<Product> repository;
 
@@ -27,6 +27,16 @@ public class ProductService implements Service<Product>{
     @Override
     public Product findByName(String name) {
         return this.repository.findByName(name);
+    }
+
+    @Override
+    public void delete(Product product) {
+        this.repository.delete(product);
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        this.repository.deleteById(id);
     }
 
     @Override

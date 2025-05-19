@@ -1,5 +1,7 @@
 package com.comejia.pedidos.services;
 
+import com.comejia.pedidos.entities.Product;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -11,8 +13,10 @@ public interface Service<T> {
 
     T findByName(String name);
 
-//    void deleteById(UUID id);
-//
+    void delete(Product product);
+
+    void deleteById(UUID id);
+
 //    void update(T entity);
 
     List<T> findAll();

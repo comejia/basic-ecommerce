@@ -11,8 +11,10 @@ public interface Repository<T> {
 
     T findByName(String name);
 
-//    void deleteById(UUID id);
-//
+    void delete(T entity);
+
+    void deleteById(UUID id);
+
 //    void update(T entity);
 
     List<T> findAll();

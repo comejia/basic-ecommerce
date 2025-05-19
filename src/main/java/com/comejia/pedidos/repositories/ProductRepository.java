@@ -1,6 +1,7 @@
 package com.comejia.pedidos.repositories;
 
 import com.comejia.pedidos.entities.Product;
+import com.comejia.pedidos.exceptions.ProductNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class ProductRepository implements Repository<Product> {
         return this.products.stream()
                 .filter(p -> p.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("El producto no existe en el sistema"));
     }
 
     @Override
@@ -28,7 +29,18 @@ public class ProductRepository implements Repository<Product> {
         return this.products.stream()
                 .filter(p -> p.getName().equals(name))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("El producto no existe en el sistema"));
+    }
+
+    @Override
+    public void delete(Product entity) {
+        this.products.remove(entity);
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        Product product = findById(id);
+        delete(product);
     }
 
     @Override
