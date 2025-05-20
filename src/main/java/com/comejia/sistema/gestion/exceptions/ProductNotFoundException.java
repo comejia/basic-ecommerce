@@ -1,4 +1,4 @@
-package com.comejia.pedidos.exceptions;
+package com.comejia.sistema.gestion.exceptions;
 
 public class ProductNotFoundException extends RuntimeException {
 

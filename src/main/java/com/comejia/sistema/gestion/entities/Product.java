@@ -1,4 +1,4 @@
-package com.comejia.pedidos.entities;
+package com.comejia.sistema.gestion.entities;
 
 import java.util.UUID;
 

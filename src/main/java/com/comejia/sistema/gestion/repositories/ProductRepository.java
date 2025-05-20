@@ -1,7 +1,7 @@
-package com.comejia.pedidos.repositories;
+package com.comejia.sistema.gestion.repositories;
 
-import com.comejia.pedidos.entities.Product;
-import com.comejia.pedidos.exceptions.ProductNotFoundException;
+import com.comejia.sistema.gestion.entities.Product;
+import com.comejia.sistema.gestion.exceptions.ProductNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;

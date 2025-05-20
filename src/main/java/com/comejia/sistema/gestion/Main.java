@@ -1,9 +1,9 @@
-package com.comejia.pedidos;
+package com.comejia.sistema.gestion;
 
-import com.comejia.pedidos.entities.Product;
-import com.comejia.pedidos.exceptions.ProductNotFoundException;
-import com.comejia.pedidos.repositories.ProductRepository;
-import com.comejia.pedidos.services.ProductService;
+import com.comejia.sistema.gestion.entities.Product;
+import com.comejia.sistema.gestion.exceptions.ProductNotFoundException;
+import com.comejia.sistema.gestion.repositories.ProductRepository;
+import com.comejia.sistema.gestion.services.ProductService;
 
 import java.util.Scanner;
 import java.util.UUID;
@@ -16,7 +16,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int option;
 
-        initialize(service);
+        initializeProducts(service);
 
         do {
             menu();
@@ -117,7 +117,7 @@ public class Main {
         scanner.close();
     }
 
-    private static void initialize(ProductService service) {
+    private static void initializeProducts(ProductService service) {
         service.save(new Product("Cafe Premium", 8_200.00, 12));
         service.save(new Product("Laptop", 2_000_000.00, 3));
         service.save(new Product("Mouse", 5_000.00, 20));

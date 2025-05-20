@@ -1,6 +1,6 @@
-package com.comejia.pedidos.services;
+package com.comejia.sistema.gestion.services;
 
-import com.comejia.pedidos.entities.Product;
+import com.comejia.sistema.gestion.entities.Product;
 
 import java.util.List;
 import java.util.UUID;
