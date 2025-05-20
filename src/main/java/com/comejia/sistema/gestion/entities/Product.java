@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Product {
 
-    private UUID id;
+    private final UUID id;
     private String name;
     private double price;
     private int stock;
@@ -48,6 +48,10 @@ public class Product {
             throw new IllegalArgumentException("El stock no puede negativo");
         }
         this.stock = stock;
+    }
+
+    public void reduceStock(int quantity) {
+        this.stock -= quantity;
     }
 
     @Override
