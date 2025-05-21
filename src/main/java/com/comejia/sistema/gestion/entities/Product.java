@@ -34,7 +34,7 @@ public class Product {
 
     public void setPrice(double price) {
         if (price < 0) {
-            throw new IllegalArgumentException("El precio no puede negativo");
+            throw new IllegalArgumentException("El precio no puede ser negativo");
         }
         this.price = price;
     }
@@ -45,7 +45,7 @@ public class Product {
 
     public void setStock(int stock) {
         if (stock < 0) {
-            throw new IllegalArgumentException("El stock no puede negativo");
+            throw new IllegalArgumentException("El stock no puede ser negativo");
         }
         this.stock = stock;
     }
@@ -55,8 +55,17 @@ public class Product {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+
+        Product product = (Product) o;
+        return id.equals(product.id);
+    }
+
+    @Override
     public String toString() {
-        return "Product{" +
+        return "{" +
                 "id: " + id +
                 ", name: " + name +
                 ", price: " + price +

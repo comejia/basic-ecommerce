@@ -1,7 +1,6 @@
-package com.comejia.sistema.gestion.entities.models;
+package com.comejia.sistema.gestion.entities;
 
-import com.comejia.sistema.gestion.entities.Product;
-import com.comejia.sistema.gestion.exceptions.InsufficientStock;
+import com.comejia.sistema.gestion.exceptions.InsufficientStockException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +20,16 @@ public class Order {
         return id;
     }
 
-    public void addItem(Product product, int quantity) {
-        if (product.getStock() < quantity) {
-            throw new InsufficientStock("No hay suficiente stock");
+    public void addItem(Item item) {
+        int totalQuantity = this.items.stream()
+                .filter(i -> i.sameProduct(item.getProduct()))
+                .mapToInt(Item::getQuantity)
+                .sum();
+
+        if (item.getProductStock() < totalQuantity + item.getQuantity()) {
+            throw new InsufficientStockException();
         }
-        this.items.add(new Item(product, quantity));
+        this.items.add(item);
     }
 
     public void confirm() {
@@ -35,7 +39,7 @@ public class Order {
         });
     }
 
-    public double total() {
+    public double totalPrice() {
         return this.items.stream()
                 .mapToDouble(Item::getTotal)
                 .sum();
@@ -47,10 +51,10 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "uuid: " + id +
+        return "{" +
+                "id: " + id +
                 ", items: " + items +
-                ", total price: " + total() +
+                ", total price: " + totalPrice() +
                 '}';
     }
 

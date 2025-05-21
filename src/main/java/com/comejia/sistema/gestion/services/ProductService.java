@@ -30,13 +30,20 @@ public class ProductService implements Service<Product> {
     }
 
     @Override
-    public void delete(Product product) {
-        this.repository.delete(product);
+    public void delete(Product entity) {
+        this.repository.delete(entity);
     }
 
     @Override
     public void deleteById(UUID id) {
         this.repository.deleteById(id);
+    }
+
+    @Override
+    public void update(Product entity, Product newEntity) {
+//        entity.setName(newEntity.getName());
+        entity.setPrice(newEntity.getPrice());
+        entity.setStock(newEntity.getStock());
     }
 
     @Override

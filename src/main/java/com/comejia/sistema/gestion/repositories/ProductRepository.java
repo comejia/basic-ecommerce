@@ -19,9 +19,9 @@ public class ProductRepository implements Repository<Product> {
     @Override
     public Product findById(UUID id) {
         return this.products.stream()
-                .filter(p -> p.getId() == id)
+                .filter(p -> p.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new ProductNotFoundException("El producto no existe en el sistema"));
+                .orElseThrow(ProductNotFoundException::new);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ProductRepository implements Repository<Product> {
         return this.products.stream()
                 .filter(p -> p.getName().equals(name))
                 .findFirst()
-                .orElseThrow(() -> new ProductNotFoundException("El producto no existe en el sistema"));
+                .orElseThrow(ProductNotFoundException::new);
     }
 
     @Override

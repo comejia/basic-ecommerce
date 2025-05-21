@@ -1,7 +1,6 @@
 package com.comejia.sistema.gestion.services;
 
-import com.comejia.sistema.gestion.entities.Product;
-import com.comejia.sistema.gestion.entities.models.Order;
+import com.comejia.sistema.gestion.entities.Order;
 import com.comejia.sistema.gestion.repositories.Repository;
 
 import java.util.List;
@@ -25,21 +24,26 @@ public class OrderService implements Service<Order> {
 
     @Override
     public Order findById(UUID id) {
-        return null;
+        return this.repository.findById(id);
     }
 
     @Override
     public Order findByName(String name) {
-        return null;
+        return this.repository.findByName(name);
     }
 
     @Override
-    public void delete(Product product) {
-
+    public void delete(Order entity) {
+        this.repository.delete(entity);
     }
 
     @Override
     public void deleteById(UUID id) {
+        this.repository.deleteById(id);
+    }
+
+    @Override
+    public void update(Order entity, Order newEntity) {
 
     }
 

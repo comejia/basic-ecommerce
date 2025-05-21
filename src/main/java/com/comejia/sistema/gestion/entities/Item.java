@@ -1,6 +1,4 @@
-package com.comejia.sistema.gestion.entities.models;
-
-import com.comejia.sistema.gestion.entities.Product;
+package com.comejia.sistema.gestion.entities;
 
 import java.util.UUID;
 
@@ -11,6 +9,9 @@ public class Item {
     private int quantity;
 
     public Item(Product product, int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
+        }
         this.id = UUID.randomUUID();
         this.product = product;
         this.quantity = quantity;
@@ -40,9 +41,17 @@ public class Item {
         return this.product.getPrice() * this.quantity;
     }
 
+    public int getProductStock() {
+        return this.product.getStock();
+    }
+
+    public boolean sameProduct(Product product) {
+        return this.product.equals(product);
+    }
+
     @Override
     public String toString() {
-        return "Item{" +
+        return "{" +
                 "product: " + product.getName() +
                 ", quantity: " + quantity +
                 '}';
