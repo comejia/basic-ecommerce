@@ -1,6 +1,5 @@
 package com.comejia.ecommerce.dtos;
 
-import com.comejia.ecommerce.entities.Item;
 import com.comejia.ecommerce.entities.Order;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,11 +11,12 @@ import java.util.List;
 public class OrderDto {
 
     private Long id;
-    private List<Item> items;
+    private List<ItemDto> items;
 
     public static OrderDto from(Order order) {
         OrderDto dto = new OrderDto();
         dto.setId(order.getId());
+//        dto.setItems(order.getItems().stream().map(i -> new ItemDto(i.)));
         return dto;
     }
 

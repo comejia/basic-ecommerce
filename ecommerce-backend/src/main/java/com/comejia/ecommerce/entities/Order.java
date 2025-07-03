@@ -1,45 +1,35 @@
 package com.comejia.ecommerce.entities;
 
 import com.comejia.ecommerce.exceptions.InsufficientStockException;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-//@Entity
+@Entity
+@Table(name = "orders")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private List<Item> items;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "order_id", nullable = false)
+    private List<Item> items = new ArrayList<>();
 
     public Order() {
     }
 
     public void addItem(Item item) {
-        int totalQuantity = this.items.stream()
-                .filter(i -> i.sameProduct(item.getProduct()))
-                .mapToInt(Item::getQuantity)
-                .sum();
-
-        if (item.getProductStock() < totalQuantity + item.getQuantity()) {
+        if (item.getQuantity() > item.getProductStock()) {
             throw new InsufficientStockException();
         }
         this.items.add(item);
-    }
-
-    public void confirm() {
-        this.items.forEach(i -> {
-            Product product = i.getProduct();
-            product.reduceStock(i.getQuantity());
-        });
     }
 
     public double totalPrice() {

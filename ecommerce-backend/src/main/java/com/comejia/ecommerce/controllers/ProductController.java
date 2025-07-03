@@ -12,34 +12,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private final ProductService productServiceImpl;
+    private final ProductService productService;
 
-    public ProductController(ProductService productServiceImpl) {
-        this.productServiceImpl = productServiceImpl;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProducts() {
-        return ResponseEntity.ok(this.productServiceImpl.findAll());
+    public ResponseEntity<List<ProductDto>> getProducts() {
+        return ResponseEntity.ok(this.productService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
-        Optional<ProductDto> product = this.productServiceImpl.findById(id);
-
-        return product.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return this.productService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productsDto) {
-        ProductDto product = this.productServiceImpl.save(productsDto);
+        ProductDto product = this.productService.save(productsDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
-
 }

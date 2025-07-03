@@ -1,45 +1,57 @@
 package com.comejia.ecommerce.services;
 
 import com.comejia.ecommerce.dtos.OrderDto;
+import com.comejia.ecommerce.entities.Item;
 import com.comejia.ecommerce.entities.Order;
+import com.comejia.ecommerce.entities.Product;
+import com.comejia.ecommerce.exceptions.ProductNotFoundException;
 import com.comejia.ecommerce.repositories.OrderRepository;
+import com.comejia.ecommerce.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-//@Service
+@Service
 public class OrderServiceImpl implements OrderService {
 
-    private final OrderRepository repository;
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
-    public OrderServiceImpl(OrderRepository repository) {
-        this.repository = repository;
+    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository) {
+        this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
     public Optional<OrderDto> findById(Long id) {
-//        Optional<Order> order = this.repository.findById(id);
-//        return order.map(OrderDto::from);
-        return Optional.empty();
+        Optional<Order> order = this.orderRepository.findById(id);
+        return order.map(OrderDto::from);
     }
 
     @Override
     public List<OrderDto> findAll() {
-//        return this.repository.findAll().stream().map(OrderDto::from).toList();
-        return null;
+        return this.orderRepository.findAll().stream().map(OrderDto::from).toList();
     }
 
     @Override
     public OrderDto save(OrderDto orderDto) {
-//        Order order = OrderDto.toEntity(orderDto);
-//        Order savedOrder = this.repository.save(order);
-//        return OrderDto.from(savedOrder);
-////        if (!orderDto.isEmpty()) {
-////            orderDto.confirm();
-////            this.repository.save(orderDto);
-////        }
-        return null;
+        Order order = new Order();
+        orderDto.getItems().forEach(itemDto -> {
+            Optional<Product> product = this.productRepository.findById(itemDto.getProductId());
+            product.ifPresentOrElse(
+                    p -> {
+                        order.addItem(new Item(p, itemDto.getQuantity()));
+                        p.reduceStock(itemDto.getQuantity());
+                    },
+                    () -> {
+                        throw new ProductNotFoundException();
+                    }
+            );
+        });
+
+        Order savedOrder = this.orderRepository.save(order);
+        return OrderDto.from(savedOrder);
     }
 
 //    @Override
