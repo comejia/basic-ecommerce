@@ -1,6 +1,7 @@
 package com.comejia.ecommerce.services;
 
 import com.comejia.ecommerce.exceptions.InsufficientStockException;
+import com.comejia.ecommerce.exceptions.OrderNotFoundException;
 import com.comejia.ecommerce.models.dtos.OrderRequestDto;
 import com.comejia.ecommerce.models.dtos.OrderResponseDto;
 import com.comejia.ecommerce.models.entities.Item;
@@ -11,6 +12,7 @@ import com.comejia.ecommerce.repositories.OrderRepository;
 import com.comejia.ecommerce.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,8 +45,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponseDto save(OrderRequestDto orderRequestDto) {
         Order order = new Order();
         orderRequestDto.getItems()
-                .forEach(itemDto -> this.productRepository
-                        .findById(itemDto.getProductId())
+                .forEach(itemDto -> this.productRepository.findById(itemDto.getProductId())
                         .ifPresentOrElse(
                                 product -> {
                                     if (!product.hasStock(itemDto.getQuantity())) {
@@ -63,7 +64,15 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toDto(savedOrder);
     }
 
-//    @Override
+    // NOTA: no tiene sentido actualizar un pedido, ya que una vez creado no debería cambiarse.
+    @Override
+    public OrderResponseDto update(Long id, OrderRequestDto orderRequestDto) {
+        return this.orderRepository.findById(id)
+                .map(orderMapper::toDto)
+                .orElseThrow(OrderNotFoundException::new);
+    }
+
+    //    @Override
 //    public Order findByName(String name) {
 //        return this.repository.findByName(name);
 //    }
@@ -76,10 +85,5 @@ public class OrderServiceImpl implements OrderService {
 //    @Override
 //    public void deleteById(UUID id) {
 //        this.repository.deleteById(id);
-//    }
-//
-//    @Override
-//    public void update(Order entity, Order newEntity) {
-//
 //    }
 }

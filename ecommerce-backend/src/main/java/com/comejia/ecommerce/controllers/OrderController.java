@@ -1,5 +1,6 @@
 package com.comejia.ecommerce.controllers;
 
+import com.comejia.ecommerce.exceptions.OrderNotFoundException;
 import com.comejia.ecommerce.models.dtos.OrderRequestDto;
 import com.comejia.ecommerce.exceptions.InsufficientStockException;
 import com.comejia.ecommerce.exceptions.ProductNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,14 +43,24 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<OrderResponseDto> createOrder(@RequestBody OrderRequestDto orderRequestDto) {
         try {
-            OrderResponseDto order = this.orderService.save(orderRequestDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(order);
+            OrderResponseDto orderResponse = this.orderService.save(orderRequestDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(orderResponse);
         } catch (ProductNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (InsufficientStockException e) {
             return ResponseEntity.badRequest().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderResponseDto> updateOrder(@PathVariable Long id, @RequestBody OrderRequestDto orderRequestDto) {
+        try {
+            OrderResponseDto orderResponse = this.orderService.update(id, orderRequestDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(orderResponse);
+        } catch (OrderNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.comejia.ecommerce.services;
 
+import com.comejia.ecommerce.exceptions.ProductNotFoundException;
 import com.comejia.ecommerce.models.dtos.ProductRequestDto;
 import com.comejia.ecommerce.models.dtos.ProductResponseDto;
 import com.comejia.ecommerce.models.entities.Product;
@@ -13,51 +14,54 @@ import java.util.Optional;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductRepository repository;
+    private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    public ProductServiceImpl(ProductRepository repository, ProductMapper productMapper) {
-        this.repository = repository;
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
+        this.productRepository = productRepository;
         this.productMapper = productMapper;
     }
 
     @Override
     public Optional<ProductResponseDto> findById(Long id) {
-        return this.repository.findById(id).map(productMapper::toDto);
+        return this.productRepository.findById(id).map(productMapper::toDto);
     }
 
     @Override
     public List<ProductResponseDto> findAll() {
-        return this.repository.findAll().stream().map(productMapper::toDto).toList();
+        return this.productRepository.findAll().stream().map(productMapper::toDto).toList();
+    }
+
+    @Override
+    public Optional<ProductResponseDto> findByName(String name) {
+        return this.productRepository.findByName(name).map(productMapper::toDto);
     }
 
     @Override
     public ProductResponseDto save(ProductRequestDto productRequestDto) {
         Product product = productMapper.toEntity(productRequestDto);
-        Product savedProduct = this.repository.save(product);
+        Product savedProduct = this.productRepository.save(product);
         return productMapper.toDto(savedProduct);
     }
 
-//    @Override
-//    public Optional<Product> findByName(String name) {
-//        return this.repository.findByName(name);
-//    }
-//
-//    @Override
-//    public void delete(Product entity) {
-//        this.repository.delete(entity);
-//    }
-//
-//    @Override
-//    public void deleteById(Long id) {
-//        this.repository.deleteById(id);
-//    }
-//
-//    @Override
-//    public void update(Product entity, Product newEntity) {
-////        entity.setName(newEntity.getName());
-//        entity.setPrice(newEntity.getPrice());
-//        entity.setStock(newEntity.getStock());
-//    }
+    @Override
+    public ProductResponseDto update(Long id, ProductRequestDto productRequestDto) {
+        Optional<Product> productOptional = this.productRepository.findById(id);
+        return productOptional.map(product -> {
+                    product.setName(productRequestDto.getName());
+                    product.setPrice(productRequestDto.getPrice());
+                    product.setStock(productRequestDto.getStock());
+                    Product updatedProduct = this.productRepository.save(product);
+                    return productMapper.toDto(updatedProduct);
+                })
+                .orElseThrow(ProductNotFoundException::new);
+    }
 
+    @Override
+    public void deleteById(Long id) {
+        if (!this.productRepository.existsById(id)) {
+            throw new ProductNotFoundException();
+        }
+        this.productRepository.deleteById(id);
+    }
 }

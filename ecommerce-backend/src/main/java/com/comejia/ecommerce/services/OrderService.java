@@ -16,10 +16,9 @@ public interface OrderService {
 
     OrderResponseDto save(OrderRequestDto orderRequestDto);
 
+    OrderResponseDto update(Long id, OrderRequestDto orderRequestDto);
+
 //    void delete(Product product);
 
 //    void deleteById(Long id);
-
-//    void update(ProductDto entity, ProductDto newEntity);
-
 }

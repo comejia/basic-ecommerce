@@ -21,11 +21,10 @@ public class ProductMapper {
     }
 
     public Product toEntity(ProductRequestDto productRequestDto) {
-        Product product = new Product();
-        product.setName(productRequestDto.getName());
-        product.setPrice(productRequestDto.getPrice());
-        product.setStock(productRequestDto.getStock());
-        return product;
+        return new Product(
+                productRequestDto.getName(),
+                productRequestDto.getPrice(),
+                productRequestDto.getStock()
+        );
     }
-
 }

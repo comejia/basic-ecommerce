@@ -12,13 +12,11 @@ public interface ProductService {
 
     List<ProductResponseDto> findAll();
 
-//    Optional<Product> findByName(String name);
+    Optional<ProductResponseDto> findByName(String name);
 
     ProductResponseDto save(ProductRequestDto productRequestDto);
 
-//    void delete(Product product);
+    ProductResponseDto update(Long id, ProductRequestDto productRequestDto);
 
-//    void deleteById(Long id);
-
-//    void update(ProductDto entity, ProductDto newEntity);
+    void deleteById(Long id);
 }
