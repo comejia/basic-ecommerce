@@ -1,7 +1,6 @@
 package com.comejia.ecommerce.services;
 
-
-import com.comejia.ecommerce.dtos.OrderDto;
+import com.comejia.ecommerce.models.dtos.OrderDto;
 
 import java.util.List;
 import java.util.Optional;

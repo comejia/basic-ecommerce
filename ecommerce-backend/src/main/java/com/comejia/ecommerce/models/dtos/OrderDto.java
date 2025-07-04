@@ -1,6 +1,6 @@
-package com.comejia.ecommerce.dtos;
+package com.comejia.ecommerce.models.dtos;
 
-import com.comejia.ecommerce.entities.Order;
+import com.comejia.ecommerce.models.entities.Order;
 import lombok.Getter;
 import lombok.Setter;
 

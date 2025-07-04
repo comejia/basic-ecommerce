@@ -1,6 +1,6 @@
 package com.comejia.ecommerce.controllers;
 
-import com.comejia.ecommerce.dtos.ProductDto;
+import com.comejia.ecommerce.models.dtos.ProductDto;
 import com.comejia.ecommerce.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

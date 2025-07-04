@@ -1,4 +1,4 @@
-package com.comejia.ecommerce.entities;
+package com.comejia.ecommerce.models.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

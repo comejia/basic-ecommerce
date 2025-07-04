@@ -1,7 +1,7 @@
 package com.comejia.ecommerce.services;
 
-import com.comejia.ecommerce.dtos.ProductDto;
-import com.comejia.ecommerce.entities.Product;
+import com.comejia.ecommerce.models.dtos.ProductDto;
+import com.comejia.ecommerce.models.entities.Product;
 import com.comejia.ecommerce.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 

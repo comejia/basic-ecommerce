@@ -1,6 +1,6 @@
-package com.comejia.ecommerce.dtos;
+package com.comejia.ecommerce.models.dtos;
 
-import com.comejia.ecommerce.entities.Product;
+import com.comejia.ecommerce.models.entities.Product;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

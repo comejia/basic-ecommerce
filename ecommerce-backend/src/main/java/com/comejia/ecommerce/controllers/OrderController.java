@@ -1,6 +1,6 @@
 package com.comejia.ecommerce.controllers;
 
-import com.comejia.ecommerce.dtos.OrderDto;
+import com.comejia.ecommerce.models.dtos.OrderDto;
 import com.comejia.ecommerce.exceptions.InsufficientStockException;
 import com.comejia.ecommerce.exceptions.ProductNotFoundException;
 import com.comejia.ecommerce.services.OrderService;
