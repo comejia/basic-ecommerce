@@ -1,8 +1,9 @@
 package com.comejia.ecommerce.controllers;
 
-import com.comejia.ecommerce.models.dtos.OrderDto;
+import com.comejia.ecommerce.models.dtos.OrderRequestDto;
 import com.comejia.ecommerce.exceptions.InsufficientStockException;
 import com.comejia.ecommerce.exceptions.ProductNotFoundException;
+import com.comejia.ecommerce.models.dtos.OrderResponseDto;
 import com.comejia.ecommerce.services.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,21 +27,21 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderDto>> getOrders() {
+    public ResponseEntity<List<OrderResponseDto>> getOrders() {
         return ResponseEntity.ok(this.orderService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDto> getOrder(@PathVariable Long id) {
+    public ResponseEntity<OrderResponseDto> getOrder(@PathVariable Long id) {
         return this.orderService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) {
+    public ResponseEntity<OrderResponseDto> createOrder(@RequestBody OrderRequestDto orderRequestDto) {
         try {
-            OrderDto order = this.orderService.save(orderDto);
+            OrderResponseDto order = this.orderService.save(orderRequestDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(order);
         } catch (ProductNotFoundException e) {
             return ResponseEntity.notFound().build();

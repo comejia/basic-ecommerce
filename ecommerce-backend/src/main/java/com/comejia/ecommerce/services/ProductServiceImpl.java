@@ -1,7 +1,9 @@
 package com.comejia.ecommerce.services;
 
-import com.comejia.ecommerce.models.dtos.ProductDto;
+import com.comejia.ecommerce.models.dtos.ProductRequestDto;
+import com.comejia.ecommerce.models.dtos.ProductResponseDto;
 import com.comejia.ecommerce.models.entities.Product;
+import com.comejia.ecommerce.models.mappers.ProductMapper;
 import com.comejia.ecommerce.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,27 +14,28 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
+    private final ProductMapper productMapper;
 
-    public ProductServiceImpl(ProductRepository repository) {
+    public ProductServiceImpl(ProductRepository repository, ProductMapper productMapper) {
         this.repository = repository;
+        this.productMapper = productMapper;
     }
 
     @Override
-    public Optional<ProductDto> findById(Long id) {
-        Optional<Product> product = this.repository.findById(id);
-        return product.map(ProductDto::from);
+    public Optional<ProductResponseDto> findById(Long id) {
+        return this.repository.findById(id).map(productMapper::toDto);
     }
 
     @Override
-    public List<ProductDto> findAll() {
-        return this.repository.findAll().stream().map(ProductDto::from).toList();
+    public List<ProductResponseDto> findAll() {
+        return this.repository.findAll().stream().map(productMapper::toDto).toList();
     }
 
     @Override
-    public ProductDto save(ProductDto productDto) {
-        Product product = ProductDto.toEntity(productDto);
+    public ProductResponseDto save(ProductRequestDto productRequestDto) {
+        Product product = productMapper.toEntity(productRequestDto);
         Product savedProduct = this.repository.save(product);
-        return ProductDto.from(savedProduct);
+        return productMapper.toDto(savedProduct);
     }
 
 //    @Override

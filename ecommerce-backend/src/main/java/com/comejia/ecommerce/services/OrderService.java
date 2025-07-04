@@ -1,19 +1,20 @@
 package com.comejia.ecommerce.services;
 
-import com.comejia.ecommerce.models.dtos.OrderDto;
+import com.comejia.ecommerce.models.dtos.OrderRequestDto;
+import com.comejia.ecommerce.models.dtos.OrderResponseDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
 
-    Optional<OrderDto> findById(Long id);
+    Optional<OrderResponseDto> findById(Long id);
 
-    List<OrderDto> findAll();
+    List<OrderResponseDto> findAll();
 
 //    Optional<Product> findByName(String name);
 
-    OrderDto save(OrderDto orderDto);
+    OrderResponseDto save(OrderRequestDto orderRequestDto);
 
 //    void delete(Product product);
 

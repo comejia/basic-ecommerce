@@ -31,16 +31,8 @@ public class Item {
         this.quantity = quantity;
     }
 
-    public int getProductStock() {
-        return this.product.getStock();
-    }
-
     public double getTotal() {
         return this.product.getPrice() * this.quantity;
-    }
-
-    public boolean sameProduct(Product product) {
-        return this.product.equals(product);
     }
 
     @Override

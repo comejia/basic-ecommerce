@@ -1,10 +1,12 @@
 package com.comejia.ecommerce.services;
 
-import com.comejia.ecommerce.models.dtos.OrderDto;
+import com.comejia.ecommerce.exceptions.InsufficientStockException;
+import com.comejia.ecommerce.models.dtos.OrderRequestDto;
+import com.comejia.ecommerce.models.dtos.OrderResponseDto;
 import com.comejia.ecommerce.models.entities.Item;
 import com.comejia.ecommerce.models.entities.Order;
-import com.comejia.ecommerce.models.entities.Product;
 import com.comejia.ecommerce.exceptions.ProductNotFoundException;
+import com.comejia.ecommerce.models.mappers.OrderMapper;
 import com.comejia.ecommerce.repositories.OrderRepository;
 import com.comejia.ecommerce.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -17,41 +19,48 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final OrderMapper orderMapper;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository,
+                            ProductRepository productRepository,
+                            OrderMapper orderMapper) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.orderMapper = orderMapper;
     }
 
     @Override
-    public Optional<OrderDto> findById(Long id) {
-        Optional<Order> order = this.orderRepository.findById(id);
-        return order.map(OrderDto::from);
+    public Optional<OrderResponseDto> findById(Long id) {
+        return this.orderRepository.findById(id).map(orderMapper::toDto);
     }
 
     @Override
-    public List<OrderDto> findAll() {
-        return this.orderRepository.findAll().stream().map(OrderDto::from).toList();
+    public List<OrderResponseDto> findAll() {
+        return this.orderRepository.findAll().stream().map(orderMapper::toDto).toList();
     }
 
     @Override
-    public OrderDto save(OrderDto orderDto) {
+    public OrderResponseDto save(OrderRequestDto orderRequestDto) {
         Order order = new Order();
-        orderDto.getItems().forEach(itemDto -> {
-            Optional<Product> product = this.productRepository.findById(itemDto.getProductId());
-            product.ifPresentOrElse(
-                    p -> {
-                        order.addItem(new Item(p, itemDto.getQuantity()));
-                        p.reduceStock(itemDto.getQuantity());
-                    },
-                    () -> {
-                        throw new ProductNotFoundException();
-                    }
-            );
-        });
+        orderRequestDto.getItems()
+                .forEach(itemDto -> this.productRepository
+                        .findById(itemDto.getProductId())
+                        .ifPresentOrElse(
+                                product -> {
+                                    if (!product.hasStock(itemDto.getQuantity())) {
+                                        throw new InsufficientStockException();
+                                    }
+                                    order.addItem(new Item(product, itemDto.getQuantity()));
+                                    product.reduceStock(itemDto.getQuantity());
+                                },
+                                () -> {
+                                    throw new ProductNotFoundException();
+                                }
+                        )
+                );
 
         Order savedOrder = this.orderRepository.save(order);
-        return OrderDto.from(savedOrder);
+        return orderMapper.toDto(savedOrder);
     }
 
 //    @Override

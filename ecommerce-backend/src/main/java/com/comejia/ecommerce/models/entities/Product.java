@@ -57,4 +57,8 @@ public class Product {
                 ", stock:" + stock +
                 '}';
     }
+
+    public boolean hasStock(int quantity) {
+        return this.stock >= quantity;
+    }
 }

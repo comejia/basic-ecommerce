@@ -1,6 +1,5 @@
 package com.comejia.ecommerce.models.entities;
 
-import com.comejia.ecommerce.exceptions.InsufficientStockException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,20 +25,11 @@ public class Order {
     }
 
     public void addItem(Item item) {
-        if (item.getQuantity() > item.getProductStock()) {
-            throw new InsufficientStockException();
-        }
         this.items.add(item);
     }
 
-    public double totalPrice() {
-        return this.items.stream()
-                .mapToDouble(Item::getTotal)
-                .sum();
-    }
-
-    public boolean isEmpty() {
-        return this.items.isEmpty();
+    public double getTotal() {
+        return this.items.stream().mapToDouble(Item::getTotal).sum();
     }
 
     @Override
@@ -47,7 +37,7 @@ public class Order {
         return "{" +
                 "id: " + id +
                 ", items: " + items +
-                ", total price: " + totalPrice() +
+                ", total price: " + getTotal() +
                 '}';
     }
 

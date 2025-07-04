@@ -1,6 +1,7 @@
 package com.comejia.ecommerce.controllers;
 
-import com.comejia.ecommerce.models.dtos.ProductDto;
+import com.comejia.ecommerce.models.dtos.ProductRequestDto;
+import com.comejia.ecommerce.models.dtos.ProductResponseDto;
 import com.comejia.ecommerce.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,20 +25,20 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getProducts() {
+    public ResponseEntity<List<ProductResponseDto>> getProducts() {
         return ResponseEntity.ok(this.productService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
+    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable Long id) {
         return this.productService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productsDto) {
-        ProductDto product = this.productService.save(productsDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductRequestDto productRequest) {
+        ProductResponseDto productResponse = this.productService.save(productRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productResponse);
     }
 }
