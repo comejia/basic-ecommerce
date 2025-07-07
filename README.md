@@ -1,26 +1,34 @@
-# Sistema de Gestión de Productos y Pedidos
+# Ecommerce
 
-Este proyecto permite gestionar productos y realizar pedidos.
+Este proyecto permite simular la gestión de productos y realizar pedidos.
 
-## Funcionalidades
-### Gestión de Productos
-* Agregar productos
-* Listar todos los productos.
-* Buscar productos por nombre o por ID.
-* Actualizar datos de los productos.
-* Eliminar productos por ID.
+## Características 📋
+* Arquitectura MVC con Spring Boot 3
+* Docker para contenerizar los servicios
+* Persistencia de datos en una Base de datos relacional
 
-### Gestión de Pedidos
-* Crear pedidos con los productos disponibles.
-* Listar todos los pedidos.
-
-## Tecnologías Utilizadas
-* Java 17
+## Tecnologias 🛠️
+Backend:
+* Java 21
 * Spring Boot
+* Docker
 * Maven
 * MySQL
 
-## Ejecución
+## Instalación 🔌
+1. Configurar las variables de entorno del archivo ```.env```
+2. Levantar los servicios con docker compose (incluido la db)
 ```bash
-$ mvn compile exec:java -Dexec.mainClass="com.comejia.sistema.gestion.ManagementSystemApp"
+$ docker-compose up --build
 ```
+3. (Opcional) Importar [datos](./data/ecommerce.sql) a la DB
+```bash
+$ docker exec -i <db_container_name> mariadb -u root <database_name> < ./data/ecommerce.sql
+# Ej: docker exec -i ecommerce-db mariadb -u root ecommerce < ./data/ecommerce.sql
+```
+
+## Uso 💻
+Los recursos que expone el backend estan en [Backend README](./ecommerce-backend/README.md). 
+Tambien se puede importar la [colección de Postman](./data/Ecommerce.postman_collection.json) para probar.
+
+
