@@ -64,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toDto(savedOrder);
     }
 
-    // NOTA: no tiene sentido actualizar un pedido, ya que una vez creado no debería cambiarse.
+    // NOTA: la logica de actualización es complicado de verificar. Se deja para mas adelante.
     @Override
     public OrderResponseDto update(Long id, OrderRequestDto orderRequestDto) {
         return this.orderRepository.findById(id)
@@ -72,18 +72,11 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(OrderNotFoundException::new);
     }
 
-    //    @Override
-//    public Order findByName(String name) {
-//        return this.repository.findByName(name);
-//    }
-//
-//    @Override
-//    public void delete(Order entity) {
-//        this.repository.delete(entity);
-//    }
-//
-//    @Override
-//    public void deleteById(UUID id) {
-//        this.repository.deleteById(id);
-//    }
+    @Override
+    public void deleteById(Long id) {
+        if (!this.orderRepository.existsById(id)) {
+            throw new OrderNotFoundException();
+        }
+        this.orderRepository.deleteById(id);
+    }
 }

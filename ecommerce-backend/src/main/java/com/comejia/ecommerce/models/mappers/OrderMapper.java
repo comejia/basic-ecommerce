@@ -12,12 +12,11 @@ public class OrderMapper {
     private ItemMapper itemMapper;
 
     public OrderResponseDto toDto(Order order) {
-        OrderResponseDto dto = new OrderResponseDto();
-        dto.setOrderId(order.getId());
-        dto.setUserId(null);
-        dto.setItems(order.getItems().stream().map(itemMapper::toDto).toList());
-        dto.setTotal(order.getTotal());
-        return dto;
+        return new OrderResponseDto(
+                order.getId(),
+                null,
+                order.getItems().stream().map(itemMapper::toDto).toList(),
+                order.getTotal()
+        );
     }
-
 }

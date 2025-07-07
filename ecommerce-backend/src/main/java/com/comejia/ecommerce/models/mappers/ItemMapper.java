@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 public class ItemMapper {
 
     public ItemResponseDto toDto(Item item) {
-        ItemResponseDto dto = new ItemResponseDto();
-        dto.setProductId(item.getProduct().getId());
-        dto.setName(item.getProduct().getName());
-        dto.setPrice(item.getProduct().getPrice());
-        dto.setQuantity(item.getQuantity());
-        dto.setSubTotal(item.getTotal());
-        return dto;
+        return new ItemResponseDto(
+                item.getProduct().getId(),
+                item.getProduct().getName(),
+                item.getProduct().getPrice(),
+                item.getQuantity(),
+                item.getTotal()
+        );
     }
 }

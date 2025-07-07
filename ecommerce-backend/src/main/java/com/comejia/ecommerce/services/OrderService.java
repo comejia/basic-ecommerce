@@ -12,13 +12,9 @@ public interface OrderService {
 
     List<OrderResponseDto> findAll();
 
-//    Optional<Product> findByName(String name);
-
     OrderResponseDto save(OrderRequestDto orderRequestDto);
 
     OrderResponseDto update(Long id, OrderRequestDto orderRequestDto);
 
-//    void delete(Product product);
-
-//    void deleteById(Long id);
+    void deleteById(Long id);
 }

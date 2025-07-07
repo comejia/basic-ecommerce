@@ -8,13 +8,7 @@ import com.comejia.ecommerce.models.dtos.OrderResponseDto;
 import com.comejia.ecommerce.services.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,18 +41,27 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.CREATED).body(orderResponse);
         } catch (ProductNotFoundException e) {
             return ResponseEntity.notFound().build();
-        } catch (InsufficientStockException e) {
+        } catch (InsufficientStockException | IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
+    // NOTA: la logica de actualización es complicado de verificar. Se deja para mas adelante.
     @PutMapping("/{id}")
     public ResponseEntity<OrderResponseDto> updateOrder(@PathVariable Long id, @RequestBody OrderRequestDto orderRequestDto) {
         try {
             OrderResponseDto orderResponse = this.orderService.update(id, orderRequestDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(orderResponse);
+        } catch (OrderNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        try {
+            this.orderService.deleteById(id);
+            return ResponseEntity.noContent().build();
         } catch (OrderNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

@@ -40,6 +40,10 @@ public class Product {
         this.stock -= quantity;
     }
 
+    public boolean hasStock(int quantity) {
+        return this.stock >= quantity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,9 +60,5 @@ public class Product {
                 ", price: " + price +
                 ", stock:" + stock +
                 '}';
-    }
-
-    public boolean hasStock(int quantity) {
-        return this.stock >= quantity;
     }
 }
