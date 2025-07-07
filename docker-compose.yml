@@ -1,0 +1,40 @@
+services:
+  backend:
+    image: ecommerce-backend:latest
+    container_name: ecommerce-backend
+    build:
+      context: ecommerce-backend
+    environment:
+      - MARIADB_HOSTNAME=${MARIADB_HOSTNAME}
+      - MARIADB_PORT=${MARIADB_PORT}
+      - MARIADB_USERNAME=${MARIADB_USERNAME}
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - back
+
+  db:
+    image: mariadb:11.8.2
+    container_name: ecommerce-db
+    environment:
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=1
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+    ports:
+      - 3307:3306
+    restart: always
+    hostname: ${MARIADB_HOSTNAME}
+    networks:
+      - back
+    volumes:
+      - data:/var/lib/mysql
+
+networks:
+  back:
+  front:
+
+volumes:
+  data:
