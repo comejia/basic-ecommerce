@@ -1,4 +1,4 @@
-package com.comejia.ecommerce.models.dtos;
+package com.comejia.ecommerce.models.dtos.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

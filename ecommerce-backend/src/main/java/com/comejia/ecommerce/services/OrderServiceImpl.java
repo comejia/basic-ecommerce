@@ -2,8 +2,8 @@ package com.comejia.ecommerce.services;
 
 import com.comejia.ecommerce.exceptions.InsufficientStockException;
 import com.comejia.ecommerce.exceptions.OrderNotFoundException;
-import com.comejia.ecommerce.models.dtos.OrderRequestDto;
-import com.comejia.ecommerce.models.dtos.OrderResponseDto;
+import com.comejia.ecommerce.models.dtos.requests.OrderRequestDto;
+import com.comejia.ecommerce.models.dtos.responses.OrderResponseDto;
 import com.comejia.ecommerce.models.entities.Item;
 import com.comejia.ecommerce.models.entities.Order;
 import com.comejia.ecommerce.exceptions.ProductNotFoundException;
@@ -12,7 +12,6 @@ import com.comejia.ecommerce.repositories.OrderRepository;
 import com.comejia.ecommerce.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

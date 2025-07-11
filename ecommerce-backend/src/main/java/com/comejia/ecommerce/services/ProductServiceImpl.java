@@ -1,8 +1,8 @@
 package com.comejia.ecommerce.services;
 
 import com.comejia.ecommerce.exceptions.ProductNotFoundException;
-import com.comejia.ecommerce.models.dtos.ProductRequestDto;
-import com.comejia.ecommerce.models.dtos.ProductResponseDto;
+import com.comejia.ecommerce.models.dtos.requests.ProductRequestDto;
+import com.comejia.ecommerce.models.dtos.responses.ProductResponseDto;
 import com.comejia.ecommerce.models.entities.Product;
 import com.comejia.ecommerce.models.mappers.ProductMapper;
 import com.comejia.ecommerce.repositories.ProductRepository;

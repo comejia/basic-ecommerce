@@ -1,4 +1,4 @@
-package com.comejia.ecommerce.models.dtos;
+package com.comejia.ecommerce.models.dtos.requests;
 
 import lombok.Getter;
 import lombok.Setter;

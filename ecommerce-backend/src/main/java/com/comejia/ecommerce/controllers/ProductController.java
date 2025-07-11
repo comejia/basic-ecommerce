@@ -1,8 +1,8 @@
 package com.comejia.ecommerce.controllers;
 
 import com.comejia.ecommerce.exceptions.ProductNotFoundException;
-import com.comejia.ecommerce.models.dtos.ProductRequestDto;
-import com.comejia.ecommerce.models.dtos.ProductResponseDto;
+import com.comejia.ecommerce.models.dtos.requests.ProductRequestDto;
+import com.comejia.ecommerce.models.dtos.responses.ProductResponseDto;
 import com.comejia.ecommerce.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

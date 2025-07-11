@@ -1,6 +1,6 @@
 package com.comejia.ecommerce.models.mappers;
 
-import com.comejia.ecommerce.models.dtos.OrderResponseDto;
+import com.comejia.ecommerce.models.dtos.responses.OrderResponseDto;
 import com.comejia.ecommerce.models.entities.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

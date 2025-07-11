@@ -1,7 +1,7 @@
 package com.comejia.ecommerce.services;
 
-import com.comejia.ecommerce.models.dtos.OrderRequestDto;
-import com.comejia.ecommerce.models.dtos.OrderResponseDto;
+import com.comejia.ecommerce.models.dtos.requests.OrderRequestDto;
+import com.comejia.ecommerce.models.dtos.responses.OrderResponseDto;
 
 import java.util.List;
 import java.util.Optional;

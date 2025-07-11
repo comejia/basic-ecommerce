@@ -1,10 +1,10 @@
 package com.comejia.ecommerce.controllers;
 
 import com.comejia.ecommerce.exceptions.OrderNotFoundException;
-import com.comejia.ecommerce.models.dtos.OrderRequestDto;
 import com.comejia.ecommerce.exceptions.InsufficientStockException;
 import com.comejia.ecommerce.exceptions.ProductNotFoundException;
-import com.comejia.ecommerce.models.dtos.OrderResponseDto;
+import com.comejia.ecommerce.models.dtos.requests.OrderRequestDto;
+import com.comejia.ecommerce.models.dtos.responses.OrderResponseDto;
 import com.comejia.ecommerce.services.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
